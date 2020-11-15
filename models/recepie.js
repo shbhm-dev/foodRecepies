@@ -2,15 +2,16 @@ const mongoose = require('mongoose')
 var Schema = mongoose.Schema
 const {ObjectId} = mongoose.Schema
 const Recepie = new Schema({
-    user : {
-        type : ObjectId,
-        ref : 'User'
+    userId : {
+        type : String
     },
     title:{
         type : String,
         require : true
     },
     steps : {
+        type : String,
+        require : true
 
     },
     foodImg : {
