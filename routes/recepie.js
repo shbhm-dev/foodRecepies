@@ -7,6 +7,10 @@ var path = require('path');
 
 const Recepie = require('../models/recepie')
 const user = require('../models/user')
+
+
+
+
 route.get('/recepies/all',(req,res)=>{
     
     Recepie.find()
@@ -34,6 +38,7 @@ route.put('/recepies/add/:id',(req,res)=>{
             })
             .save()
             .then(prof => console.log(prof))
+            .catch(err => console.log(err))
     
 
             const newRecepie = new Recepie({

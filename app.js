@@ -22,7 +22,7 @@ const db = mongoose.connection
 db.on('error', console.error.bind(console, 'connection error:'));
 
 app.use('/',recepie)
-// app.use('/',recepie)
+
 app.listen(4444,()=>{
     console.log("server running")
 })
