@@ -5,6 +5,9 @@ const Recepie = new Schema({
     userId : {
         type : String
     },
+    username:{
+        type:String
+    },
     title:{
         type : String,
         require : true
