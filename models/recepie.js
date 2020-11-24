@@ -18,8 +18,7 @@ const Recepie = new Schema({
 
     },
     foodImg : {
-        data: Buffer,
-        contentType: String
+        type : String
     },
     postDate : {
         type : Date,

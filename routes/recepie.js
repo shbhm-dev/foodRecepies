@@ -3,6 +3,34 @@ const route = express.Router()
 const mongoose = require('mongoose')
 var fs = require('fs'); 
 var path = require('path'); 
+const multer = require('multer')
+
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+      cb(null, './uploads');
+    },
+    filename: function(req, file, cb) {
+      cb(null,file.originalname);
+    }
+  });
+  const fileFilter = (req, file, cb) => {
+  
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+      cb(null, true);
+    } else {
+      cb(null, false);
+    }
+  };
+  
+  const upload = multer({
+    storage: storage,
+    limits: {
+      fileSize: 1024 * 1024 * 5
+    },
+    fileFilter: fileFilter
+  });
+  
+
 
 
 const Recepie = require('../models/recepie')
@@ -26,7 +54,7 @@ route.post('/recepies/addUser',(req,res)=>{
                 username : username
             })
             .save()
-            .then(user => res.json(user))
+            .then(users => res.json(users))
             .catch(err => res.json(err))
         }
 
@@ -58,18 +86,20 @@ route.get('/recepies/all',(req,res)=>{
 // @access  PRIVATE
 
 
-route.post('/recepies/add',(req,res)=>{
+route.post('/recepies/add',upload.single('productImage'),(req,res)=>{
 
     let pid =  req.body.userId
  
-
+    console.log(req.file)
 
     user.findOne({"userId":pid})
     .then(profile => {
 
         if(!profile)
         {
-          
+            res.json({
+                Fail : "Please sign up first!"
+            })
          
         }else
         {
@@ -79,7 +109,7 @@ route.post('/recepies/add',(req,res)=>{
                 username : req.body.username,
                 title : req.body.title,
                 steps : req.body.steps,
-
+                foodImg : req.file.path
             })
             newRecepie.save()
             .then(recepie => res.json(recepie))
